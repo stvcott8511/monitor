@@ -10,87 +10,54 @@ class MongoDB {
         this.collection = collection;
         this.logger = logger;
     }
-    connect() {
-        return new Promise( ( resolve, reject ) => {
-            let url = `${this.dbHost}:${this.port}`;
-            mongo.connect( url, { useNewUrlParser: true }, ( err, conn ) => {
-                if ( _.isNull( conn ) || _.isUndefined( conn ) ) { 
-                    this.logger.error( `Connection error to MongoDB on Host:${this.dbHost}, Port:${this.port}` );
-                    reject( err );
-                    return;
-                } 
-                this.logger.log( `Connected to MongoDB on Host: ${this.dbHost}, Port:${this.port}` );
-                resolve( conn );
+    async connect() {
+        let url = `${this.dbHost}:${this.port}`;
+        let conn = await mongo.connect( url, { useNewUrlParser: true } )
+            .catch( ( err ) => {
+                this.logger.error( `Connection error to MongoDB on Host:${this.dbHost}, Port:${this.port}` );
+                throw err;
             } );
-        } );
+        this.logger.log( `Connected to MongoDB on Host: ${this.dbHost}, Port:${this.port}` );
+        return conn;
     }
-    find( query ) {
-        return new Promise( ( resolve, reject ) => {
-            this.connect().then( ( conn ) => {
-                conn.db( this.dbName ).collection( this.collection ).find( query ).toArray( ( err, result ) => {
-                    if( _.isNull( result ) || _.isUndefined( result ) ) {
-                        this.logger.error( `Find to MongoDB collection: ${this.collection}` );
-                        reject( err );
-                    } else {
-                        resolve( result );
-                    }
-                    conn.close();
-                } );
-            } ).catch( ( err ) => {
-                reject( err );
-            } );
-        } );    
+    async find( query ) {
+        let conn = await this.connect();
+        let result = await conn.db( this.dbName ).collection( this.collection ).find( query ).toArray();
+        conn.close();
+        return result;
     }
-    insert( data ) {
-        return new Promise( ( resolve, reject ) => {
-            this.connect().then( ( conn ) => {
-                conn.db( this.dbName ).collection( this.collection ).insertOne( data, ( err, result ) => {
-                    if( _.isNull( result ) || _.isUndefined( result ) ) {
-                        this.logger.error( `Insertion failed to MongoDB collection: ${this.collection}` );
-                        reject( err );
-                    } else {
-                        resolve( result );
-                    };
-                    conn.close();
-                } );
-            } ).catch( ( err ) => {
-                reject( err );
-            } );
-        } );
+    async insert( data ) {
+        let conn = await this.connect();
+        let result = await conn.db( this.dbName ).collection( this.collection ).insertOne( data );
+        conn.close();
+        if( result.result.n == 0 ) {
+            let errMsg = `Insert failed to MongoDB collection: ${this.collection}`
+            this.logger.error( errMsg );
+            throw new Error( errMsg );
+        }
+        return result;
     }
-    update( query, data ) {
-        return new Promise( ( resolve, reject ) => {
-            this.connect().then( ( conn ) => {
-                conn.db( this.dbName ).collection( this.collection ).updateOne( query, data, ( err, result ) => {
-                    if( _.isNull( result ) || _.isUndefined( result ) ) {
-                        this.logger.error( `Update failed to MongoDB collection: ${this.collection}` );
-                        reject( err );
-                    } else {
-                        resolve( result );
-                    };
-                    conn.close();
-                } );
-            } ).catch( ( err ) => {
-                reject( err );
-            } );
-        } );
+    async update( query, data ) {
+        let conn = await this.connect();
+        let result = await conn.db( this.dbName ).collection( this.collection ).updateOne( query, data );
+        conn.close();
+        if( result.result.n == 0 ) {
+            let errMsg = `Update failed to MongoDB collection: ${this.collection}`
+            this.logger.error( errMsg );
+            throw new Error( errMsg );
+        }
+        return result;
     }
-    delete( query ) {
-        return new Promise( ( resolve, reject ) => {
-            this.connect().then( ( conn ) => {
-                conn.db( this.dbName ).collection( this.collection ).deleteOne( query, ( err, result ) => {
-                    if( _.isNull( result ) || _.isUndefined( result ) ) {
-                        this.logger.error( `Update failed to MongoDB collection: ${this.collection}` );
-                        reject( err );
-                    } else {
-                        resolve( result );
-                    };
-                    conn.close();
-                } );
-            } ).catch( ( err ) => {
-                reject( err );
-            } );
-        } );
+    async delete( query ) {
+        let conn = await this.connect();
+        let result = await conn.db( this.dbName ).collection( this.collection ).deleteOne( query );
+        conn.close();
+        if( result.result.n == 0 ) {
+            let errMsg = `Delete failed to MongoDB collection: ${this.collection}`
+            this.logger.error( errMsg );
+            throw new Error( errMsg );
+        }
+        return result;
     }
 }
 
