@@ -16,6 +16,7 @@ function getMongoDBConfig() {
 }
 
 // Add more DBs later
+databases["Defualt"] = getMongoDBConfig();
 databases["MongoDB"] = getMongoDBConfig();
 
 class DBManager {
@@ -38,7 +39,7 @@ module.exports = function( name, logger, config ) {
     try {
         baseConfig = instance.getDatabase( name );
     } catch ( err ) {
-        new Error( `No config for database type: ${name}` );
+        throw new Error( `No config for database type: ${name}` );
     }
 
     baseConfig.dbHost = _.get( config,  "dbHost" , baseConfig.dbHost );

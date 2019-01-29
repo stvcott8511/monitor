@@ -1,4 +1,5 @@
 const _ = require( "lodash" );
+const dbManager = require( __dirname + "/dbManager" );
 
 // Start MonitorController code
 const errorMsg1 = "Monitor name is not defined";
@@ -10,6 +11,7 @@ function checkMonitor( monitor ) {
 class MonitorController {
     constructor( logger ) {
         this.logger = logger;
+        this.dataBase = dbManager.getDataBase( "Defualt" );
     }
 
     /*
@@ -36,8 +38,8 @@ class MonitorController {
             this.logger.error( error );
             throw error;
         }
-        // TODO surcurity
-        // TODO Add to table logic
+        // TODO security
+        this.dataBase.insert( monitor );
         this.logger.log( "Monitor Added" );
         return { status: "Good" };
     }
@@ -52,7 +54,7 @@ class MonitorController {
             this.logger.error( error );
             throw error;
         }
-        // TODO surcurity
+        // TODO security
         // TODO Add to table logic
         this.logger.log( "Monitor Remove" );
         return { status: "Good" };
