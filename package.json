@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "mongodb": "^3.1.12"
   }
 }

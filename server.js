@@ -20,36 +20,49 @@ app.get( "/health",  ( req, res ) => {
 
   // Set Monitor API
 app.post( "/monitor/add", jsonParser,( req, res ) => {
-    try {
-        res.send( monController.addMonitor( req.body ) );
-    } catch ( error ) {
-        res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
-    }
+    monController.addMonitor( req.body )
+        .then( ( result ) => {
+            res.send( result );
+        } ).catch( ( error ) => { 
+            res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
+        } );
  } );
 
 app.post( "/monitor/remove", jsonParser, ( req, res ) => {
-    try {
-        res.send( monController.removeMonitor( req.body ) );
-    } catch ( error ) {
-        res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
-    }
+    monController.removeMonitor( req.body )
+        .then( ( result ) => {
+            res.send( result );
+        } ).catch( ( error ) => { 
+            res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
+        } );
+ } );
+
+ app.post( "/monitor/find", jsonParser, ( req, res ) => {
+    monController.findMonitor( req.body )
+        .then( ( result ) => {
+            res.send( result );
+        } ).catch( ( error ) => { 
+            res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
+        } );
  } );
 
  // Set Client API
 app.post( "/event/add", jsonParser,( req, res ) => {
-    try {
-        res.send( eventController.addEvent( req.body ) );
-    } catch ( error ) {
-        res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
-    }
+    eventController.addEvent( req.body )
+        .then( ( result ) => {
+            res.send( result );
+        } ).catch( ( error ) => { 
+            res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
+        } );
  } );
 
 app.post( "/event/find", jsonParser, ( req, res ) => {
-    try {
-        res.send( eventController.findEvent( req.body ) );
-    } catch ( error ) {
-        res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
-    }
+    eventController.findEvent( req.body )
+        .then( ( result ) => {
+            res.send( result );
+        } ).catch( ( error ) => { 
+            res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
+        } );
  } );
 
 app.listen( port, () => { logger.log( `Server running on port: ${port}` ) } );

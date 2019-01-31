@@ -30,33 +30,18 @@ class MongoDB {
         let conn = await this.connect();
         let result = await conn.db( this.dbName ).collection( this.collection ).insertOne( data );
         conn.close();
-        if( result.result.n == 0 ) {
-            let errMsg = `Insert failed to MongoDB collection: ${this.collection}`
-            this.logger.error( errMsg );
-            throw new Error( errMsg );
-        }
         return result;
     }
     async update( query, data ) {
         let conn = await this.connect();
         let result = await conn.db( this.dbName ).collection( this.collection ).updateOne( query, data );
         conn.close();
-        if( result.result.n == 0 ) {
-            let errMsg = `Update failed to MongoDB collection: ${this.collection}`
-            this.logger.error( errMsg );
-            throw new Error( errMsg );
-        }
         return result;
     }
     async delete( query ) {
         let conn = await this.connect();
         let result = await conn.db( this.dbName ).collection( this.collection ).deleteOne( query );
         conn.close();
-        if( result.result.n == 0 ) {
-            let errMsg = `Delete failed to MongoDB collection: ${this.collection}`
-            this.logger.error( errMsg );
-            throw new Error( errMsg );
-        }
         return result;
     }
 }
