@@ -6,7 +6,7 @@ const dbManager = require( __dirname + "/dbManager" );
 const errorMsg1 = "Monitor name is not defined";
 
 function checkMonitor( monitor ) {
-    return _.isUndefined( _.get( monitor, "name" ) );
+    return _.isUndefined( _.get( monitor, "monName" ) );
 }
 
 function createLogErr( msg ) {
@@ -24,7 +24,7 @@ class MonitorController {
     /*
        [
         {
-            name: "Monitor name",
+            monName: "Monitor name",
         }
        ]
     */
@@ -33,15 +33,15 @@ class MonitorController {
             throw createLogErr( errorMsg1 ) ;
         }
         let result =  await this.dataBase.find( {
-            name: {
-                $eq: monitor.name
+            monName: {
+                $eq: monitor.monName
             }
         } ); 
         return result;
     }
     /*
         {
-            name: "Monitor name",
+            monName: "Monitor name",
             description: "Information about monitor"
             timeout: Length of time monitor does not respond {Optional}
         }
@@ -53,7 +53,7 @@ class MonitorController {
         // TODO security
         let found = await this.dataBase.find( monitor );
         if( found.length >= 1 ) {
-            throw new Error( `${monitor.name} already in database. Cannot add monitor with the same name` );
+            throw new Error( `${monitor.monName} monitor already in database. Cannot add monitor with the same name` );
         }
         monitor.timeStamp = moment().format();
         let result = await this.dataBase.insert( monitor );
@@ -66,7 +66,7 @@ class MonitorController {
     }
     /*
         {
-            name: "Monitor name",}
+            monName: "Monitor name",}
         }
     */
     async removeMonitor( monitor ) {
@@ -74,8 +74,8 @@ class MonitorController {
             throw createLogErr( errorMsg1 ) ;
         }
         // TODO security
-        let result = await this.dataBase.delete( { name: {
-            $eq: monitor.name
+        let result = await this.dataBase.delete( { monName: {
+            $eq: monitor.monName
         } } );
         if( result.result.n == 0 ) {
             throw new Error( `Removing monitor from database failed for collection: ${this.dataBase.collection}` );

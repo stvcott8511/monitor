@@ -7,11 +7,6 @@ class ExceptionWraper {
     }
     toJSON() {
         let obj = { status: this.status, errorDescription: this.description };
-        if( _.isUndefined( this.errCode ) ) {
-            obj.errCode = 1;
-            return obj;
-        }
-        obj.errCode = this.errCode;
         return obj;
     }
 }
