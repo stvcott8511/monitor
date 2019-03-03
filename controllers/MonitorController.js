@@ -1,6 +1,6 @@
 const _ = require( "lodash" );
 const moment = require( "moment" );
-const dbManager = require( __dirname + "/dbManager" );
+const dbManager = require( __dirname + "/../database/dbManager" );
 
 // Start MonitorController code
 const errorMsg1 = "Monitor name is not defined";
@@ -61,7 +61,7 @@ class MonitorController {
             throw new Error( `Adding monitor to database failed for collection: ${this.dataBase.collection}` );
         }
         let msg = "Monitor Added";
-        this.logger.log( `${msg} on ${monitor.timeStamp}, Name: ${monitor.name}` );
+        this.logger.log( `${msg} on ${monitor.timeStamp}, Name: ${monitor.monName}` );
         return { status: msg };
     }
     /*
@@ -81,7 +81,7 @@ class MonitorController {
             throw new Error( `Removing monitor from database failed for collection: ${this.dataBase.collection}` );
         }
         let msg = "Monitor Remove";
-        this.logger.log( `${msg} on ${moment().format()}, Name: ${monitor.name}` );
+        this.logger.log( `${msg} on ${moment().format()}, Name: ${monitor.monName}` );
         return { status: msg };
     }
     // Update Monitor todo

@@ -1,7 +1,8 @@
+debugger;
 const _ = require( "lodash" );
-const MonitorController = require( __dirname + "/MonitorController" );
-const Eventcontroller = require( __dirname + "/Eventcontroller" );
-const LogManager = require( __dirname + "/logging" ).LogManager;
+const MonitorController = require( __dirname + "/../controllers/MonitorController" );
+const Eventcontroller = require( __dirname + "/../controllers/Eventcontroller" );
+const LogManager = require( __dirname + "/../logging/LogManager" ).LogManager;
 
 var logger = LogManager.getLoogger();
 var monController = new MonitorController( logger );

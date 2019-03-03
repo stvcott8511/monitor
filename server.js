@@ -1,8 +1,8 @@
 const express = require( "express" );
 const bodyParser = require('body-parser');
-const LogManager = require( __dirname + "/logging" ).LogManager;
-const ExceptionWraper = require( __dirname + "/utils" ).ExceptionWraper;
-const api = require( __dirname + "/api" );
+const LogManager = require( __dirname + "/logging/LogManager" ).LogManager;
+const ExceptionWraper = require( __dirname + "/utils/utils" ).ExceptionWraper;
+const api = require( __dirname + "/api/apicontroller" );
 
 // main
 var port = 1985;

@@ -1,6 +1,6 @@
 const _ = require( "lodash" );
 const moment = require( "moment" );
-const dbManager = require( __dirname + "/dbManager" );
+const dbManager = require( __dirname + "/../database/dbManager" );
 
 // Start Eventcontroller Code
 const AlertTypes = [ "CLEAR", "LOW", "MED", "HIGH" ];

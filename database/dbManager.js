@@ -1,5 +1,5 @@
-const MongoDB = require( __dirname + "/MongoDB" );
 const _ = require( "lodash" );
+const MongoDB = require( __dirname + "/MongoDB" );
 
 var databases = {};
 

@@ -1,6 +1,6 @@
 const mongo = require( "mongodb" );
-const dbLib = require( __dirname + "/dbUtils" );
 const _ = require( "lodash" );
+const dbLib = require( __dirname + "/dbUtils" );
 
 class MongoDB {
     constructor( dbHost, port, dbName, collection, logger ) {
