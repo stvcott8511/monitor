@@ -2,10 +2,11 @@ const express = require( "express" );
 const bodyParser = require('body-parser');
 const LogManager = require( __dirname + "/logging/LogManager" ).LogManager;
 const ExceptionWraper = require( __dirname + "/utils/utils" ).ExceptionWraper;
+const settings = require( __dirname + "/utils/configure" ).settings;
 const api = require( __dirname + "/api/apicontroller" );
 
 // main
-var port = 1985;
+var port = settings.port;
 var logger = LogManager.getLoogger();
 var app = express();
 var jsonParser = bodyParser.json();
