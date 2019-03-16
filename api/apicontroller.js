@@ -19,7 +19,7 @@ class EventWapper {
         let result;
         if( _.isUndefined( _.get( event, "linkedMon" ) ) ) {
             let error = new Error( "Event must have linkedMon property." );
-            this.logger( error );
+            this.logger.log( error );
             throw error;
         }
         let monitor = await this.monController.findMonitor( {
@@ -30,21 +30,36 @@ class EventWapper {
             // push to q.
         } else {
             let error = new Error( "No monitor for give event. Added event must have a monitor." );
-            this.logger( error );
+            this.logger.log( error );
             throw error;
         }
         return result;
     }
 }
 
-var eventWapper = new EventWapper( eventController, monController, logger );
+class MonitorWapper {
+    constructor( eventController, monController, logger ) {
+        this.eventController = eventController;
+        this.monController = monController;
+        this.logger = logger;
+    }
+
+    async removeMonitor( monitor ) {
+        let result = await this.eventController.removeEventsByMonitor( monitor );
+        let result2 =  await this.monController.removeMonitor( monitor );
+        return [ result, result2 ];
+    }
+}
+
+let eventWapper = new EventWapper( eventController, monController, logger );
+let monitorWapper = new MonitorWapper( eventController, monController, logger );
 
 let api = {
     addMonitor: function( monitor ){
         return monController.addMonitor( monitor );
     },
     removeMonitor: function( monitor ) {
-        return monController.removeMonitor( monitor );
+        return monitorWapper.removeMonitor( monitor );
     },
     findMonitor: function( monitor ) {
         return monController.findMonitor( monitor );

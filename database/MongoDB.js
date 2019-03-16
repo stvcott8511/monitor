@@ -44,6 +44,12 @@ class MongoDB {
         conn.close();
         return result;
     }
+    async deleteMany( query ) {
+        let conn = await this.connect();
+        let result = await conn.db( this.dbName ).collection( this.collection ).deleteMany( query );
+        conn.close();
+        return result;
+    }
 }
 
 module.exports = MongoDB;

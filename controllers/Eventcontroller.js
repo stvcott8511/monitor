@@ -53,6 +53,27 @@ class Eventcontroller {
     }
     /*
         {
+            monitor.monName: name
+        }
+    */
+    async removeEventsByMonitor( monitor ) {
+        if( _.isUndefined( monitor ) && _.isUndefined( monitor.monName ) ) {
+            let error = new Error( "No monitor name provided." );
+            this.logger.error( error );
+            throw error
+        }
+        let result = await this.dataBase.deleteMany( { linkedMon: {
+            $eq: monitor.monName
+        } } );
+        if( result.result.n == 0 ) {
+            throw new Error( `Removing events from database failed for collection: ${this.dataBase.collection}` );
+        }
+        let msg = "Events Remove";
+        this.logger.log( `${msg} on ${monitor.timeStamp}, Event Name: ${monitor.eventID}` );
+        return { status: msg, eventRomoved: result.result.n };
+    }
+    /*
+        {
             linkedMon: Monitor name
         }
     */
