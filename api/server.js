@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const LogManager = require( __dirname + "/logging/LogManager" ).LogManager;
 const ExceptionWraper = require( __dirname + "/utils/utils" ).ExceptionWraper;
 const settings = require( __dirname + "/utils/configure" ).settings;
-const api = require( __dirname + "/api/apicontroller" );
+const api = require( __dirname + "/apicontroller" );
 
 // main
 var port = settings.port;
