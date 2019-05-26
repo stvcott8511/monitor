@@ -2,15 +2,18 @@ const _ = require( "lodash" );
 const MonitorController = require( __dirname + "/controllers/MonitorController" );
 const Eventcontroller = require( __dirname + "/controllers/Eventcontroller" );
 const LogManager = require( __dirname + "/logging/LogManager" ).LogManager;
+const QueueManager = require( __dirname + "/queue/QueueManager" );
 
 var logger = LogManager.getLoogger();
 var monController = new MonitorController( logger );
 var eventController = new Eventcontroller( logger );
+var queue = QueueManager( "Defualt", logger );
 
 class EventWapper {
-    constructor( eventController, monController, logger ) {
+    constructor( eventController, monController, queue ,logger ) {
         this.eventController = eventController;
         this.monController = monController;
+        this.queue = queue;
         this.logger = logger;
     }
     async add( event ) {
@@ -27,9 +30,9 @@ class EventWapper {
         } );
         if( monitor.length == 1 ) {
             result = await this.eventController.addEvent( event );
-            // push to q.
+            this.queue.push( event );
         } else {
-            let error = new Error( "No monitor for give event. Added event must have a monitor." );
+            let error = new Error( "No monitor for given event. Added event must have a monitor." );
             this.logger.log( error );
             throw error;
         }
@@ -51,7 +54,7 @@ class MonitorWapper {
     }
 }
 
-let eventWapper = new EventWapper( eventController, monController, logger );
+let eventWapper = new EventWapper( eventController, monController, queue, logger );
 let monitorWapper = new MonitorWapper( eventController, monController, logger );
 
 let api = {

@@ -1,7 +1,7 @@
 const _ = require( "lodash" );
 const MongoDB = require( __dirname + "/MongoDB" );
 
-var databases = {};
+var databaseConfig = {};
 
 // MongoDB Defualts
 function getMongoDBConfig() {
@@ -15,13 +15,13 @@ function getMongoDBConfig() {
     return config;
 }
 
-// Add more DBs later
-databases["Defualt"] = getMongoDBConfig();
-databases["MongoDB"] = getMongoDBConfig();
+// Add more DB Configs later
+databaseConfig["Defualt"] = getMongoDBConfig();
+//databaseConfig["MongoDB"] = getMongoDBConfig();
 
 class DBManager {
     constructor() {
-        this.db = databases;
+        this.db = databaseConfig;
     }
     getDatabase( name ) {
         return this.db[name];
