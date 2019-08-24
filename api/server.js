@@ -6,7 +6,7 @@ const LogManager = require( __dirname + "/logging/LogManager" ).LogManager;
 const ExceptionWraper = require( __dirname + "/utils/utils" ).ExceptionWraper;
 const api = require( __dirname + "/apicontroller" );
 
-// Setttings
+// Load settings configuration from env file.
 dotenv.config( {
     path: __dirname + "/config/settings.env"
 } );
@@ -33,12 +33,13 @@ if( process.env.NODE_ENV == "development" )
     } ) );
 }
 
+// Start of APP Application
 app.get( "/health",  ( req, res ) => { 
     logger.log( "Health check invoked" );
     res.send( { status: "UP" } );
  } );
 
-  // Set Monitor API
+// Set Monitor API
 app.post( "/monitor/add", jsonParser, async ( req, res ) => {
     try {
         res.send( await api.addMonitor( req.body ) );
