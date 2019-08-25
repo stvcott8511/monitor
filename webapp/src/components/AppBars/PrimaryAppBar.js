@@ -6,15 +6,16 @@ import React from 'react';
 import TabNavigation from '../Navigation/TabNavigation';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    title: {
-        flexGrow: 1,
-    },
+  root: {
+    flexGrow: 1,
+  },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
-function PrimaryAppBar({
+function PrimaryAppBar(props) {
+  const {
     NavigationToolbarProps,
     TabNavigationProps,
     tabPropsList,
@@ -22,32 +23,30 @@ function PrimaryAppBar({
     TitleAppBarProps,
     TitleToolbarProps,
     TypographyProps,
-}) {
-    const classes = useStyles();
+  } = props;
+  const classes = useStyles();
 
-    return (
-        <div className={classes.root}>
-            <AppBar position="fixed" {...TitleAppBarProps}>
-                <Toolbar {...TitleToolbarProps}>
-                    <Typography
-                        variant="h6"
-                        className={classes.title}
-                        {...TypographyProps}>
-                        {title}
-                    </Typography>
-                </Toolbar>
-                <Toolbar {...NavigationToolbarProps}>
-                    <TabNavigation
-                        tabPropsList={[{
-                            label: 'home',
-                        }]}
-                        AppBarProps={{ className: classes.tabNavigationAppBar, position: 'static' }}
-                        TabsProps={{ 'aria-label': 'test' }}
-                        {...TabNavigationProps} />
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
+  return (
+    <div className={classes.root}>
+      <AppBar position="fixed" {...TitleAppBarProps}>
+        <Toolbar {...TitleToolbarProps}>
+          <Typography
+            variant="h6"
+            className={classes.title}
+            {...TypographyProps}>
+            {title}
+          </Typography>
+        </Toolbar>
+        <Toolbar {...NavigationToolbarProps}>
+          <TabNavigation
+            tabPropsList={tabPropsList || []}
+            AppBarProps={{ className: classes.tabNavigationAppBar, position: 'static' }}
+            TabsProps={{ 'aria-label': 'test' }}
+            {...TabNavigationProps} />
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
 
 export default PrimaryAppBar;
