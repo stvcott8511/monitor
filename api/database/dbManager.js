@@ -1,23 +1,34 @@
 const _ = require( "lodash" );
+const BaseDB = require( __dirname + "/BaseDB" );
 const MongoDB = require( __dirname + "/MongoDB" );
 
 var databaseConfig = {};
 
+function getBaseDB() {
+    let config = {
+        dbClass: BaseDB
+    }
+    return config;
+}
+
 // MongoDB Defualts
 function getMongoDBConfig() {
     let config = {
-        dbHost: "mongodb://localhost",
-        port: 27017,
-        dbname: "mondb",
-        collection: "monitor",
+        dbHost: process.env.DBHOST,
+        port: process.env.DBHOST,
+        dbname: process.env.DBNAME,
+        collection: process.env.COLLECTION,
         dbClass: MongoDB
     }
     return config;
 }
 
 // Add more DB Configs later
-databaseConfig["Defualt"] = getMongoDBConfig();
-//databaseConfig["MongoDB"] = getMongoDBConfig();
+databaseConfig["Defualt"] = getBaseDB();
+databaseConfig["mongoDB"] = getMongoDBConfig();
+if( process.env.DEFAULT_DB ) {
+    databaseConfig["Defualt"] = databaseConfig[process.env.DEFAULT_DB];
+}
 
 class DBManager {
     constructor() {

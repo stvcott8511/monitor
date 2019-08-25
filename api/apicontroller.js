@@ -30,7 +30,7 @@ class EventWapper {
         } );
         if( monitor.length == 1 ) {
             result = await this.eventController.addEvent( event );
-            this.queue.push( event );
+            await this.queue.push( event );
         } else {
             let error = new Error( "No monitor for given event. Added event must have a monitor." );
             this.logger.log( error );

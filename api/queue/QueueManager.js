@@ -1,15 +1,8 @@
 const _ = require( "lodash" );
+const RabbitMQ = require( __dirname + "/RabbitMQ" );
+const BaseQ = require( __dirname + "/BaseQ" );
 
 var queueConfig = {};
-
-class BaseQ {
-    constructor( logger ) {
-        this.logger = logger;
-    }
-    push( message ){
-        this.logger.log( `Testing push to queue: ${ JSON.stringify( message ) }` );
-    }
-}
 
 function getBaseQ() {
     let config = {
@@ -18,8 +11,22 @@ function getBaseQ() {
     return config;
 }
 
+function getRabbitMQ()
+{
+    let config = {
+        host: process.env.QHOST,
+        port: process.env.QPORT,
+        queueName: process.env.QNAME,
+        qClass: RabbitMQ
+    }
+    return config;
+}
+
 queueConfig["Defualt"] = getBaseQ();
-//queueConfig["Kafka"] = getKafkaConfig();
+queueConfig["RabbitMQ"] = getRabbitMQ();
+if( process.env.DEFAULT_QUEUE ) {
+    queueConfig["Defualt"] = queueConfig[process.env.DEFAULT_QUEUE];
+}
 
 class QManager {
     constructor(){
@@ -44,5 +51,5 @@ module.exports = function( name, logger, config ) {
         throw new Error( `No config for database type: ${name}` );
     }
 
-    return new baseConfig.qClass( logger );
+    return new baseConfig.qClass( baseConfig.host, baseConfig.port, baseConfig.queueName, logger );
 }
