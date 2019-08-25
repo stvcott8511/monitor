@@ -2,14 +2,15 @@ const express = require( "express" );
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
-const LogManager = require( __dirname + "/logging/LogManager" ).LogManager;
-const ExceptionWraper = require( __dirname + "/utils/utils" ).ExceptionWraper;
-const api = require( __dirname + "/apicontroller" );
 
 // Load settings configuration from env file.
 dotenv.config( {
     path: __dirname + "/config/settings.env"
 } );
+
+const LogManager = require( __dirname + "/logging/LogManager" ).LogManager;
+const ExceptionWraper = require( __dirname + "/utils/utils" ).ExceptionWraper;
+const api = require( __dirname + "/apicontroller" );
 
 // main
 var port = process.env.PORT || 8000;
