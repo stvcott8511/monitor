@@ -1,8 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import EventsTable from './components/Events/EventsTable';
-import MasterDetailLayout from './components/Layouts/MasterDetailLayout';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import PrimaryLayout from './components/Layouts/PrimaryLayout';
+import Events from './pages/Events';
+import RootLayout from './components/Layouts/RootLayout';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -10,25 +11,28 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function App() {
+const routeParentLayouts = {
+  '/': {
+    Component: PrimaryLayoutComponent,
+  },
+}
+
+function PrimaryLayoutComponent(props) {
+  const { children } = props;
+  console.log('PrimaryLayoutComponent');
+  return <PrimaryLayout PrimaryAppBarProps={{ title: 'Monitor' }}>{children}</PrimaryLayout>;
+}
+
+export default function App() {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <PrimaryLayout PrimaryAppBarProps={{ title: 'Monitor' }}>
-        <MasterDetailLayout>
-          <EventsTable events={[
-            {
-              name: 'Test Event',
-              date: new Date(),
-              message: 'This is a test event.',
-              details: 'More details would be in here and probably really large information.',
-            },
-          ]} />
-        </MasterDetailLayout>
-      </PrimaryLayout>
+      <Router>
+        <RootLayout routeParentLayouts={routeParentLayouts}>
+          <Route path='/' component={Events} />
+        </RootLayout>
+      </Router>
     </div>
   );
 }
-
-export default App;

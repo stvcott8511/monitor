@@ -33,7 +33,7 @@ function EventsTable(props) {
             cellRenderer: ({ cellData, ...otherCellProps}) => (
               <VirtualizedTableCell
                 {...otherCellProps}
-                cellData={new Date(cellData).toLocaleDateString('default')} />
+                cellData={new Date(cellData).toLocaleString()} />
             ),
           },
           {
