@@ -23,7 +23,7 @@ function composeMasterListRow(key, list) {
     const { index, style } = props;
 
     return (
-      <ListItem button style={style} key={`master_list_${index}`}>
+      <ListItem button style={style} key={`master_list_row_${index}`}>
         <ListItemText primary={list[index][key]} />
       </ListItem>
     );
