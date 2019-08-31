@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import PrimaryLayout from './components/Layouts/PrimaryLayout';
 import Events from './pages/Events';
+import Monitors from './pages/Monitors';
 import RootLayout from './components/Layouts/RootLayout';
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +31,7 @@ export default function App() {
     <div className={classes.root}>
       <Router>
         <RootLayout routeParentLayouts={routeParentLayouts}>
-          <Route path='/' component={Events} />
+          <Route path='/' component={Monitors} />
         </RootLayout>
       </Router>
     </div>
