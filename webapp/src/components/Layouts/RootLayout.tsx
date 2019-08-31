@@ -18,7 +18,7 @@ export interface RootLayoutProps {
   routeParentLayouts: RouteParentLayouts;
 }
 
-const RootLayout: React.SFC<RootLayoutProps & RouteComponentProps<any>> = (props) => {
+const RootLayout: React.FunctionComponent<RootLayoutProps & RouteComponentProps<any>> = (props) => {
   const {
     children,
     location,
