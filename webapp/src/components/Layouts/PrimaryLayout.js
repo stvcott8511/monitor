@@ -30,7 +30,6 @@ const useStyles = makeStyles(theme => ({
 
 function PrimaryLayout({
   children,
-  ContentBoxProps,
   PrimaryAppBarProps,
   ...otherProps
 }) {
