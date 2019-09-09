@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import EventsTable from '../components/Events/EventsTable';
 import MasterDetailLayout from '../components/Layouts/MasterDetailLayout';
+import { EventDto } from '../dtos/eventDtos';
+import { MonitorDto } from '../dtos/monitorDtos';
+import { getMonitorEvents } from '../services/monitorsService';
 
 export interface EventsProps {
-  
+  monitor?: MonitorDto
 }
 
 /**
@@ -12,17 +15,20 @@ export interface EventsProps {
  * @param props 
  */
 export default function Events(props: EventsProps) {
-  console.log('Events Component');
+  const { monitor = { monName: '' } } = props;
+  const [events, setEvents] = useState<EventDto[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      console.log(`load events for ${monitor.monName}`);
+      const result = await getMonitorEvents(monitor.monName);
+      setEvents(result);
+    })();
+  }, [monitor.monName]);
+
   return (
     <MasterDetailLayout>
-      <EventsTable events={[
-        {
-          name: 'Test Event',
-          date: new Date(),
-          message: 'This is a test event.',
-          details: 'More details would be in here and probably really large information.',
-        },
-      ]} />
+      <EventsTable events={events} />
     </MasterDetailLayout>
   );
 }

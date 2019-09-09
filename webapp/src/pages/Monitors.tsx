@@ -4,13 +4,14 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { History } from 'history';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { match as Match, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeGrid as Grid } from 'react-window';
 import PrimaryLayout from '../components/Layouts/PrimaryLayout';
 import { MonitorDto } from '../dtos/monitorDtos';
 import Events from './Events';
+import { getMonitors } from '../services/monitorsService';
 
 const COLUMN_WIDTH = 400;
 const ROW_HEIGHT = 150;
@@ -50,6 +51,7 @@ interface ComposeMonitorCellProps {
   monitorList: MonitorDto[];
   match: Match<{}>;
   history: History;
+  onClickCell: (monitor: MonitorDto) => void;
 }
 
 interface MonitorCellProps {
@@ -58,16 +60,12 @@ interface MonitorCellProps {
   style: React.CSSProperties;
 }
 
-function composeMonitorCell({ monitorList, match, history }: ComposeMonitorCellProps) {
+function composeMonitorCell({ monitorList, match, history, onClickCell }: ComposeMonitorCellProps) {
   return function (props: MonitorCellProps) {
     const { columnIndex, rowIndex, style } = props;
     const index = ((rowIndex + 1) * (columnIndex + 1)) - 1;
     const classes = useStyles(props);
     const monitor = monitorList[index];
-
-    function handleClickCard(monitor: MonitorDto) {
-      history.push(`/monitors/${monitor.monName}/events`);
-    }
 
     return monitor
       ? (
@@ -76,7 +74,7 @@ function composeMonitorCell({ monitorList, match, history }: ComposeMonitorCellP
             key={`monitor_list_row_${rowIndex}_column_${columnIndex}`}
             className={classes.card}
             elevation={5}>
-            <CardActionArea onClick={() => handleClickCard(monitor)}>
+            <CardActionArea onClick={() => onClickCell(monitor)}>
               <CardContent>
                 <Typography variant="h5" gutterBottom component="h5">
                   {monitor.monName}
@@ -93,6 +91,63 @@ function composeMonitorCell({ monitorList, match, history }: ComposeMonitorCellP
   }
 }
 
+interface MonitorsContentProps extends RouteComponentProps {
+  onSelectMonitor: (monitor: MonitorDto) => void;
+}
+
+const MonitorsContent: React.FunctionComponent<MonitorsContentProps> = (props) => {
+  const {
+    history,
+    match,
+    onSelectMonitor = () => { },
+  } = props;
+  const classes = useStyles(props);
+  const [monitors, setMonitors] = React.useState<MonitorDto[]>([]);
+  const columnCount = (width: number) => Math.floor(width / COLUMN_WIDTH);
+  const rowCount = (width: number) => Math.ceil(monitors.length / Math.floor(width / COLUMN_WIDTH));
+
+  useEffect(() => {
+    async function fetchMonitors() {
+      // Get monitors from service
+      console.log('load monitors');
+      const result = await getMonitors();
+      setMonitors(result);
+    }
+    fetchMonitors();
+  }, []);
+
+  function handleClickCell(monitor: MonitorDto) {
+    onSelectMonitor(monitor);
+  }
+
+  return (
+    <div className={classes.root}>
+      <div className={classes.gridContainer}>
+        <Typography component="div" className={classes.typography}>
+          <AutoSizer>
+            {
+              ({ height, width }) => {
+                return (
+                  <Grid
+                    className={classes.grid}
+                    columnCount={columnCount(width)}
+                    columnWidth={Math.floor(width / columnCount(width))}
+                    height={height}
+                    width={width}
+                    rowCount={rowCount(width)}
+                    rowHeight={ROW_HEIGHT}>
+                    {composeMonitorCell({ monitorList: monitors, match, history, onClickCell: handleClickCell })}
+                  </Grid>
+                )
+              }
+            }
+          </AutoSizer>
+        </Typography>
+      </div>
+    </div>
+  );
+}
+
 export interface MonitorsProps extends RouteComponentProps {
 
 }
@@ -105,53 +160,32 @@ export interface MonitorsProps extends RouteComponentProps {
 const Monitors: React.FunctionComponent<MonitorsProps> = (props) => {
   const {
     history,
+    location,
     match,
   } = props;
-  const classes = useStyles(props);
-  const [monitors/*, setMonitors*/] = React.useState<MonitorDto[]>([{
-    monName: 'Test 1',
-    description: 'Test Description',
-  }, {
-    monName: 'Test 2',
-    description: 'Test Description',
-  }, {
-    monName: 'Test 3',
-    description: 'Test Description',
-  }, {
-    monName: 'Test 4',
-    description: 'Test Description',
-  }]);
-  const columnCount = (width: number) => Math.floor(width / COLUMN_WIDTH);
-  const rowCount = (width: number) => Math.ceil(monitors.length / Math.floor(width / COLUMN_WIDTH));
+  const [selectedMonitor, setSelectedMonitor] = React.useState<MonitorDto>();
+
+  useEffect(() => {
+    console.log('selected monitor');
+    selectedMonitor && history.push(`/monitors/${selectedMonitor.monName}/events`);
+  }, [selectedMonitor, history]);
+
+  function handleSelectedMonitor(monitor: MonitorDto) {
+    setSelectedMonitor(monitor);
+  }
+
   return (
     <PrimaryLayout PrimaryAppBarProps={{ title: 'Monitor' }}>
       <Route path={match.url} exact render={() => (
-        <div className={classes.root}>
-          <div className={classes.gridContainer}>
-            <Typography component="div" className={classes.typography}>
-              <AutoSizer>
-                {
-                  ({ height, width }) => {
-                    return (
-                      <Grid
-                        className={classes.grid}
-                        columnCount={columnCount(width)}
-                        columnWidth={Math.floor(width / columnCount(width))}
-                        height={height}
-                        width={width}
-                        rowCount={rowCount(width)}
-                        rowHeight={ROW_HEIGHT}>
-                        {composeMonitorCell({ monitorList: monitors, match, history })}
-                      </Grid>
-                    )
-                  }
-                }
-              </AutoSizer>
-            </Typography>
-          </div>
-        </div>
+        <MonitorsContent
+          history={history}
+          location={location}
+          match={match}
+          onSelectMonitor={handleSelectedMonitor} />
       )} />
-      <Route path={`${match.path}/:monitorName/events`} component={Events} />
+      <Route
+        path={`${match.path}/:monitorName/events`}
+        render={() => <Events monitor={selectedMonitor} />} />
     </PrimaryLayout>
   );
 }
