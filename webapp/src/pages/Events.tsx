@@ -14,9 +14,10 @@ export interface EventsProps {
  * 
  * @param props 
  */
-export default function Events(props: EventsProps) {
+const Events: React.FunctionComponent<EventsProps> = (props) => {
   const { monitor = { monName: '' } } = props;
   const [events, setEvents] = useState<EventDto[]>([]);
+  const [eventTypes, setEventTypes] = useState<{ name: string}[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -26,9 +27,22 @@ export default function Events(props: EventsProps) {
     })();
   }, [monitor.monName]);
 
+  useEffect(() => {
+    const eventTypes = events.reduce((accumulator, current) => accumulator.add(current.eventId),
+      new Set<string>(['All']));
+    setEventTypes(Array.from(eventTypes)
+      .map(value => ({ name: value, onClick: handleClickEventType })));
+  }, [events]);
+
+  function handleClickEventType(name: string) {
+    console.log(name);
+  }
+
   return (
-    <MasterDetailLayout>
+    <MasterDetailLayout masterList={eventTypes}>
       <EventsTable events={events} />
     </MasterDetailLayout>
   );
 }
+
+export default Events;

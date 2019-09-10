@@ -18,23 +18,44 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function composeMasterListRow(key, list) {
-  return function (props) {
+interface MasterListRowProps {
+  index: number;
+  style: any;
+}
+
+function composeMasterListRow(list: MasterListConfig[]) {
+  return function (props: MasterListRowProps) {
     const { index, style } = props;
+    const {
+      name,
+      onClick = (name: string) => { },
+    } = list[index];
 
     return (
-      <ListItem button style={style} key={`master_list_row_${index}`}>
-        <ListItemText primary={list[index][key]} />
+      <ListItem
+        button
+        style={style}
+        key={`master_list_row_${index}`}
+        onClick={() => onClick(name)}>
+        <ListItemText primary={name} />
       </ListItem>
     );
   }
 }
 
-function MasterDetailLayout(props) {
+export interface MasterListConfig {
+  name: string;
+  onClick?: (name: string) => void;
+}
+
+export interface MasterDetailLayoutProps {
+  masterList: MasterListConfig[];
+}
+
+const MasterDetailLayout: React.FunctionComponent<MasterDetailLayoutProps> = (props) => {
   const {
     children,
-    masterList = [{ name: 'Item 1 ' }],
-    masterKey = 'name'
+    masterList = [],
   } = props;
   const classes = useStyles();
 
@@ -50,7 +71,7 @@ function MasterDetailLayout(props) {
                   width={width}
                   itemSize={60}
                   itemCount={masterList.length}>
-                  {composeMasterListRow(masterKey, masterList)}
+                  {composeMasterListRow(masterList)}
                 </List>
               )
             }
