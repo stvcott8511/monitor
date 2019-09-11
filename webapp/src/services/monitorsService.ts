@@ -30,10 +30,26 @@ export async function getMonitorEvents(monName: string): Promise<EventDto[]> {
     {
       eventId: 'Event Type 2',
       linkedMon: monName,
-      alert: EventAlert.LOW,
+      alert: EventAlert.HIGH,
       timeStamp: new Date(),
       message: 'Event message',
       details: 'Event Type 2 detailed information. Could be stack trace.'
     },
+    {
+      eventId: 'Event Type 3',
+      linkedMon: monName,
+      alert: EventAlert.MED,
+      timeStamp: new Date(),
+      message: 'Event message',
+      details: 'Event Type 3 detailed information. Could be stack trace.'
+    },
+    {
+      eventId: 'Event Type 4',
+      linkedMon: monName,
+      alert: EventAlert.CLEAR,
+      timeStamp: new Date(),
+      message: 'Event message',
+      details: 'Event Type 4 detailed information. Could be stack trace.'
+    }
   ]);
 }
