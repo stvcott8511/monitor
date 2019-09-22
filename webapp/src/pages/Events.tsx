@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router';
 import EventsTable from '../components/Events/EventsTable';
 import MasterDetailLayout from '../components/Layouts/MasterDetailLayout';
 import { EventDto } from '../dtos/eventDtos';
 import { MonitorDto } from '../dtos/monitorDtos';
 import { getMonitorEvents } from '../services/monitorsService';
+import { MonitorsRouteParams } from './Monitors';
 
-export interface EventsProps {
+export interface EventsProps extends RouteComponentProps<MonitorsRouteParams> {
   monitor?: MonitorDto
 }
 
@@ -15,9 +17,12 @@ export interface EventsProps {
  * @param props 
  */
 const Events: React.FunctionComponent<EventsProps> = (props) => {
-  const { monitor = { monName: '' } } = props;
+  const {
+    match,
+    monitor = { monName: match.params.monitorName }
+  } = props;
   const [events, setEvents] = useState<EventDto[]>([]);
-  const [eventTypes, setEventTypes] = useState<{ name: string}[]>([]);
+  const [eventTypes, setEventTypes] = useState<{ name: string }[]>([]);
 
   useEffect(() => {
     (async () => {

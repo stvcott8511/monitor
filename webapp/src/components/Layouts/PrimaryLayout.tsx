@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import PrimaryAppBar from '../AppBars/PrimaryAppBar';
+import PrimaryAppBar, { PrimaryAppBarProps } from '../AppBars/PrimaryAppBar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,24 +28,29 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function PrimaryLayout({
-  children,
-  PrimaryAppBarProps,
-  ...otherProps
-}) {
+export interface PrimaryLayoutProps {
+  PrimaryAppBarProps: Partial<PrimaryAppBarProps>;
+}
+
+const PrimaryLayout: React.FunctionComponent<PrimaryLayoutProps> = (props) => {
+  const {
+    children,
+    PrimaryAppBarProps,
+    ...otherProps
+  } = props;
   const classes = useStyles(otherProps);
 
   return (
     <div className={classes.root}>
       <div className={classes.appHeader}>
-        <PrimaryAppBar AppBarProps={{ position: 'static' }} {...PrimaryAppBarProps} />
+        <PrimaryAppBar TitleAppBarProps={{ position: 'static' }} {...PrimaryAppBarProps} />
       </div>
       <main className={classes.mainArea}>
         <div className={classes.toolbarSpacing} />
-        <div className={classes.toolbarSpacing} />
-        <content className={classes.contentArea}>
+        {/* <div className={classes.toolbarSpacing} /> */}
+        <div className={classes.contentArea}>
           {children}
-        </content>
+        </div>
       </main>
     </div>
   );

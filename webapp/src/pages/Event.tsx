@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Event() {
+const Event: React.FunctionComponent<{}> = (props) => {
     return (
         <div />
     );

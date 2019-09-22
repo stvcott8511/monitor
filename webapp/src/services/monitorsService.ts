@@ -1,8 +1,8 @@
 import { MonitorDto } from '../dtos/monitorDtos';
 import { EventDto, EventAlert } from '../dtos/eventDtos';
 
-export async function getMonitors(): Promise<MonitorDto[]> {
-  return Promise.resolve([{
+const MOCK = Object.freeze<MonitorDto[]>([
+  {
     monName: 'Test 1',
     description: 'Test Description',
   }, {
@@ -14,14 +14,22 @@ export async function getMonitors(): Promise<MonitorDto[]> {
   }, {
     monName: 'Test 4',
     description: 'Test Description',
-  }]);
+  }
+]);
+
+export async function getMonitors(): Promise<MonitorDto[]> {
+  return Promise.resolve([...MOCK]);
 }
 
-export async function getMonitorEvents(monName: string): Promise<EventDto[]> {
+export async function getMonitor(monitorName: string): Promise<MonitorDto | undefined> {
+  return Promise.resolve(MOCK.find(m => m.monName === monitorName));
+}
+
+export async function getMonitorEvents(monitorName: string): Promise<EventDto[]> {
   return Promise.resolve([
     {
       eventId: 'Event Type 1',
-      linkedMon: monName,
+      linkedMon: monitorName,
       alert: EventAlert.LOW,
       timeStamp: new Date(),
       message: 'Event message',
@@ -29,7 +37,7 @@ export async function getMonitorEvents(monName: string): Promise<EventDto[]> {
     },
     {
       eventId: 'Event Type 2',
-      linkedMon: monName,
+      linkedMon: monitorName,
       alert: EventAlert.HIGH,
       timeStamp: new Date(),
       message: 'Event message',
@@ -37,7 +45,7 @@ export async function getMonitorEvents(monName: string): Promise<EventDto[]> {
     },
     {
       eventId: 'Event Type 3',
-      linkedMon: monName,
+      linkedMon: monitorName,
       alert: EventAlert.MED,
       timeStamp: new Date(),
       message: 'Event message',
@@ -45,7 +53,7 @@ export async function getMonitorEvents(monName: string): Promise<EventDto[]> {
     },
     {
       eventId: 'Event Type 4',
-      linkedMon: monName,
+      linkedMon: monitorName,
       alert: EventAlert.CLEAR,
       timeStamp: new Date(),
       message: 'Event message',
