@@ -32,6 +32,7 @@ const Monitors: React.FunctionComponent<MonitorsProps> = (props) => {
     match,
   } = props;
   const [selectedMonitor, setSelectedMonitor] = React.useState<MonitorDto>();
+  const [selectedTabValue, setSelectedTabValue] = React.useState<number>(0);
   const title = `Monitor${(selectedMonitor ? (': ' + selectedMonitor.monName) : '')}`;
 
   useEffect(() => {
@@ -57,7 +58,11 @@ const Monitors: React.FunctionComponent<MonitorsProps> = (props) => {
     const { pathname } = location;
     const paths = pathname.split('/')
       .filter((path) => path.length > 0);
-    (paths.length > 1) && history.push('/monitors');
+    (paths.length > 1) && history.goBack();
+  }
+
+  function handleChangeTab(event: React.ChangeEvent<{}>, newValue: number) {
+    setSelectedTabValue(newValue);
   }
 
   return (
@@ -65,7 +70,20 @@ const Monitors: React.FunctionComponent<MonitorsProps> = (props) => {
       PrimaryAppBarProps={{
         title,
         onClickNavigation: handleClickNavigation,
-        NavigationIconComponent: selectedMonitor && ArrowBackIcon
+        NavigationIconComponent: selectedMonitor && ArrowBackIcon,
+        TabNavigationProps: {
+          TabsProps: {
+            'aria-label': 'monitors tab navigation',
+            value: selectedTabValue,
+            onChange: handleChangeTab,
+            centered: true,
+          },
+          tabPropsList: [
+            // {
+            //   label: 'Home',
+            // },
+          ],
+        }
       }}>
       <Switch>
         <Route path={match.path} exact render={routeProps => (

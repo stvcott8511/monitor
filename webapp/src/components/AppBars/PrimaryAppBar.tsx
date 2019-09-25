@@ -1,18 +1,21 @@
 import AppBar, { AppBarProps } from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import Toolbar, { ToolbarProps } from '@material-ui/core/Toolbar';
 import Typography, { TypographyProps } from '@material-ui/core/Typography';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import React from 'react';
-import TabNavigation from '../Navigation/TabNavigation';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import TabNavigation, { TabNavigationProps } from '../Navigation/TabNavigation';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
   title: {
+    // flexGrow: 1,
+  },
+  tabs: {
     flexGrow: 1,
   },
 }));
@@ -21,9 +24,8 @@ export interface PrimaryAppBarProps {
   hideNavigationButton?: boolean;
   NavigationIconComponent?: React.ComponentType<SvgIconProps>;
   NavigationIconProps?: Partial<SvgIconProps>;
-  NavigationToolbarProps?: Partial<ToolbarProps>;
   onClickNavigation?: () => void;
-  TabNavigationProps?: any;
+  TabNavigationProps?: TabNavigationProps;
   tabPropsList?: [];
   title?: string;
   TitleAppBarProps?: Partial<AppBarProps>;
@@ -36,7 +38,6 @@ const PrimaryAppBar: React.FunctionComponent<PrimaryAppBarProps> = (props) => {
     hideNavigationButton,
     NavigationIconComponent = TrackChangesIcon,
     NavigationIconProps,
-    NavigationToolbarProps,
     onClickNavigation = () => { },
     TabNavigationProps,
     tabPropsList,
@@ -65,14 +66,10 @@ const PrimaryAppBar: React.FunctionComponent<PrimaryAppBarProps> = (props) => {
             {...TypographyProps}>
             {title}
           </Typography>
-        </Toolbar>
-        {/* <Toolbar {...NavigationToolbarProps}>
           <TabNavigation
             tabPropsList={tabPropsList || []}
-            AppBarProps={{ position: 'static' }}
-            TabsProps={{ 'aria-label': 'test' }}
             {...TabNavigationProps} />
-        </Toolbar> */}
+        </Toolbar>
       </AppBar>
     </div>
   );

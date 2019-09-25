@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import EventsTable from '../components/Events/EventsTable';
 import MasterDetailLayout from '../components/Layouts/MasterDetailLayout';
 import { EventDto } from '../dtos/eventDtos';
 import { MonitorDto } from '../dtos/monitorDtos';
 import { getMonitorEvents } from '../services/monitorsService';
+import Event from './Event';
 import { MonitorsRouteParams } from './Monitors';
 
 export interface EventsProps extends RouteComponentProps<MonitorsRouteParams> {
@@ -18,6 +19,7 @@ export interface EventsProps extends RouteComponentProps<MonitorsRouteParams> {
  */
 const Events: React.FunctionComponent<EventsProps> = (props) => {
   const {
+    history,
     match,
     monitor = { monName: match.params.monitorName }
   } = props;
@@ -35,17 +37,26 @@ const Events: React.FunctionComponent<EventsProps> = (props) => {
   useEffect(() => {
     const eventTypes = events.reduce((accumulator, current) => accumulator.add(current.eventId),
       new Set<string>(['All']));
+
+    function handleClickEventType(name: string) {
+      name !== 'All' && history.push(`${match.path}/${name}`);
+    }
+
     setEventTypes(Array.from(eventTypes)
       .map(value => ({ name: value, onClick: handleClickEventType })));
-  }, [events]);
-
-  function handleClickEventType(name: string) {
-    console.log(name);
-  }
+  }, [events, history, match]);
 
   return (
     <MasterDetailLayout masterList={eventTypes}>
-      <EventsTable events={events} />
+      <Switch>
+        <Route
+          path={match.path}
+          exact
+          render={() => <EventsTable events={events} />} />
+        <Route
+          path={`${match.path}/:eventType`}
+          render={routeProps => <Event {...routeProps} />} />
+      </Switch>
     </MasterDetailLayout>
   );
 }

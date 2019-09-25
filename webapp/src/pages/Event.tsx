@@ -1,8 +1,13 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
-const Event: React.FunctionComponent<{}> = (props) => {
+export interface EventProps extends RouteComponentProps {
+
+}
+
+const Event: React.FunctionComponent<EventProps> = (props) => {
     return (
-        <div />
+        <div>Hello World</div>
     );
 }
 
