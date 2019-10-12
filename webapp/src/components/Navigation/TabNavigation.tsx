@@ -10,13 +10,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export interface TabNavigationProps {
-  tabPropsList: Partial<TabProps>[];
+  tabPropsList?: Partial<TabProps>[];
   TabsProps?: TabsProps;
 }
 
 const TabNavigation: React.FunctionComponent<TabNavigationProps> = (props) => {
   const {
-    tabPropsList,
+    tabPropsList = [],
     TabsProps = {
       value: 0,
       centered: true,

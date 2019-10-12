@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import EventsTable from '../components/Events/EventsTable';
-import MasterDetailLayout from '../components/Layouts/MasterDetailLayout';
+import MasterDetailLayout, { MasterListConfig } from '../components/Layouts/MasterDetailLayout';
 import { EventDto } from '../dtos/eventDtos';
 import { MonitorDto } from '../dtos/monitorDtos';
-import { getMonitorEvents } from '../services/monitorsService';
+import { getMonitorEvents, getMonitorEventTypes } from '../services/monitorsService';
 import Event from './Event';
 import { MonitorsRouteParams } from './Monitors';
 
@@ -24,27 +24,24 @@ const Events: React.FunctionComponent<EventsProps> = (props) => {
     monitor = { monName: match.params.monitorName }
   } = props;
   const [events, setEvents] = useState<EventDto[]>([]);
-  const [eventTypes, setEventTypes] = useState<{ name: string }[]>([]);
+  const [eventTypes, setEventTypes] = useState<MasterListConfig[]>([]);
 
   useEffect(() => {
+    function handleClickEventType(name: string) {
+      name !== 'All' && history.push(`${match.url}/${name}`);
+    }
+
     (async () => {
       console.log(`load events for ${monitor.monName}`);
       const result = await getMonitorEvents(monitor.monName);
       setEvents(result);
     })();
-  }, [monitor.monName]);
-
-  useEffect(() => {
-    const eventTypes = events.reduce((accumulator, current) => accumulator.add(current.eventId),
-      new Set<string>(['All']));
-
-    function handleClickEventType(name: string) {
-      name !== 'All' && history.push(`${match.path}/${name}`);
-    }
-
-    setEventTypes(Array.from(eventTypes)
-      .map(value => ({ name: value, onClick: handleClickEventType })));
-  }, [events, history, match]);
+    (async () => {
+      const result = await getMonitorEventTypes(monitor.monName);
+      const eventTypes = ['All', ...Array.from<string>(result)];
+      setEventTypes(eventTypes.map(value => ({ name: value, onClick: handleClickEventType })));
+    })();
+  }, [monitor.monName, history, match]);
 
   return (
     <MasterDetailLayout masterList={eventTypes}>

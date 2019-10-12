@@ -7,6 +7,7 @@ import { MonitorDto } from '../dtos/monitorDtos';
 import { getMonitor } from '../services/monitorsService';
 import { getParams } from '../utilities/router';
 import Events from './Events';
+import { TabsProps } from '@material-ui/core/Tabs';
 
 const MONITORS_ROUTE_PROPS = Object.freeze({
   path: '/monitors/:monitorName/events',
@@ -77,7 +78,7 @@ const Monitors: React.FunctionComponent<MonitorsProps> = (props) => {
             value: selectedTabValue,
             onChange: handleChangeTab,
             centered: true,
-          },
+          } as TabsProps,
           tabPropsList: [
             // {
             //   label: 'Home',

@@ -25,8 +25,7 @@ export interface PrimaryAppBarProps {
   NavigationIconComponent?: React.ComponentType<SvgIconProps>;
   NavigationIconProps?: Partial<SvgIconProps>;
   onClickNavigation?: () => void;
-  TabNavigationProps?: TabNavigationProps;
-  tabPropsList?: [];
+  TabNavigationProps?: Partial<TabNavigationProps>;
   title?: string;
   TitleAppBarProps?: Partial<AppBarProps>;
   TitleToolbarProps?: Partial<ToolbarProps>;
@@ -40,7 +39,6 @@ const PrimaryAppBar: React.FunctionComponent<PrimaryAppBarProps> = (props) => {
     NavigationIconProps,
     onClickNavigation = () => { },
     TabNavigationProps,
-    tabPropsList,
     title,
     TitleAppBarProps,
     TitleToolbarProps,
@@ -66,9 +64,7 @@ const PrimaryAppBar: React.FunctionComponent<PrimaryAppBarProps> = (props) => {
             {...TypographyProps}>
             {title}
           </Typography>
-          <TabNavigation
-            tabPropsList={tabPropsList || []}
-            {...TabNavigationProps} />
+          <TabNavigation {...TabNavigationProps} />
         </Toolbar>
       </AppBar>
     </div>

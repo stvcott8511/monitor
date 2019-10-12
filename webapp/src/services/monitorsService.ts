@@ -1,7 +1,7 @@
+import { EventAlert, EventDto } from '../dtos/eventDtos';
 import { MonitorDto } from '../dtos/monitorDtos';
-import { EventDto, EventAlert } from '../dtos/eventDtos';
 
-const MOCK = Object.freeze<MonitorDto[]>([
+const MOCK_MONITORS = Object.freeze<MonitorDto[]>([
   {
     monName: 'Test 1',
     description: 'Test Description',
@@ -17,16 +17,8 @@ const MOCK = Object.freeze<MonitorDto[]>([
   }
 ]);
 
-export async function getMonitors(): Promise<MonitorDto[]> {
-  return Promise.resolve([...MOCK]);
-}
-
-export async function getMonitor(monitorName: string): Promise<MonitorDto | undefined> {
-  return Promise.resolve(MOCK.find(m => m.monName === monitorName));
-}
-
-export async function getMonitorEvents(monitorName: string): Promise<EventDto[]> {
-  return Promise.resolve([
+function mockEvents(monitorName: string): EventDto[] {
+  return ([
     {
       eventId: 'Event Type 1',
       linkedMon: monitorName,
@@ -60,4 +52,22 @@ export async function getMonitorEvents(monitorName: string): Promise<EventDto[]>
       details: 'Event Type 4 detailed information. Could be stack trace.'
     }
   ]);
+}
+
+export async function getMonitors(): Promise<MonitorDto[]> {
+  return Promise.resolve([...MOCK_MONITORS]);
+}
+
+export async function getMonitor(monitorName: string): Promise<MonitorDto | undefined> {
+  return Promise.resolve(MOCK_MONITORS.find(m => m.monName === monitorName));
+}
+
+export async function getMonitorEvents(monitorName: string): Promise<EventDto[]> {
+  return Promise.resolve(mockEvents(monitorName));
+}
+
+export async function getMonitorEventTypes(monitorName: string): Promise<Set<string>> {
+  return Promise.resolve(mockEvents(monitorName)
+    .reduce((accumulator, current) => accumulator.add(current.eventId),
+      new Set<string>()));
 }
