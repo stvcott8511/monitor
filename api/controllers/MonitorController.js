@@ -18,7 +18,7 @@ function createLogErr( msg ) {
 class MonitorController {
     constructor( logger ) {
         this.logger = logger;
-        this.dataBase = dbManager( "Defualt", logger );
+        this.dataBase = dbManager( "Defualt", logger, "monitors" );
     }
 
     /*
@@ -42,7 +42,7 @@ class MonitorController {
     /*
         {
             monName: "Monitor name",
-            description: "Information about monitor"
+            description: "Information about monitor",
             timeout: Length of time monitor does not respond {Optional}
         }
     */

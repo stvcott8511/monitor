@@ -27,13 +27,13 @@ function validate( event ) {
 class Eventcontroller {
     constructor( logger ) {
         this.logger = logger;
-        this.dataBase = dbManager( "Defualt", logger );
+        this.dataBase = dbManager( "Defualt", logger, "events" );
     }
     /*
         {
             eventID: "Event ID",
-            linkedMon,
-            alert: One of the folowing [ "CLEAR", "LOW", "MED", "HIGH" ],
+            linkedMon: "Monitor name"
+            alert: One of the folowing [ "CLEAR", "LOW", "MED", "HIGH" ]
         }
     */
     async addEvent( event ) {
