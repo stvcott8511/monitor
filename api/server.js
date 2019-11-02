@@ -11,6 +11,7 @@ dotenv.config( {
 const LogManager = require( __dirname + "/logging/LogManager" ).LogManager;
 const ExceptionWraper = require( __dirname + "/utils/utils" ).ExceptionWraper;
 const api = require( __dirname + "/apicontroller" );
+const graphQLAPI = require( __dirname + "/graphql/graphQLAPI" );
 
 // main
 var port = process.env.PORT || 8000;
@@ -81,5 +82,9 @@ app.post( "/event/find", jsonParser, async ( req, res ) => {
         res.status( 500 ).send( new ExceptionWraper( error ).toJSON() );
     }
  } );
+
+
+// GraphQl hook
+graphQLAPI( app, logger );
 
 app.listen( port, () => { logger.log( `Server running on port: ${port}` ) } );
