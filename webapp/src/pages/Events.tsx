@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import EventsTable from '../components/Events/EventsTable';
-import MasterDetailLayout, { MasterListConfig } from '../components/Layouts/MasterDetailLayout';
+import EventsTable from '../components/features/Events/EventsTable';
+import MasterDetailLayout, { MasterListConfig } from '../components/core/Layouts/MasterDetailLayout';
 import { EventDto } from '../dtos/eventDtos';
 import { MonitorDto } from '../dtos/monitorDtos';
 import { getMonitorEvents, getMonitorEventTypes } from '../services/monitorsService';

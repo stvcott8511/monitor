@@ -7,8 +7,8 @@ import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeGrid as Grid } from 'react-window';
-import { MonitorDto } from '../../dtos/monitorDtos';
-import { getMonitors } from '../../services/monitorsService';
+import { MonitorDto } from '../../../dtos/monitorDtos';
+import { getMonitors } from '../../../services/monitorsService';
 
 const COLUMN_WIDTH = 400;
 const ROW_HEIGHT = 150;

@@ -7,8 +7,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
-import { MonitorDto } from '../../dtos/monitorDtos';
-import DialogTransition from '../Animations/DialogTransition';
+import { MonitorDto } from '../../../dtos/monitorDtos';
+import DialogTransition from '../../core/Animations/DialogTransition';
 
 const useStyles = makeStyles((theme: Theme) =>
   ({

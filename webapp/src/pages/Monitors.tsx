@@ -1,8 +1,8 @@
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import React, { useEffect } from 'react';
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
-import PrimaryLayout from '../components/Layouts/PrimaryLayout';
-import MonitorsGrid from '../components/Monitors/MonitorsGrid';
+import PrimaryLayout from '../components/core/Layouts/PrimaryLayout';
+import MonitorsGrid from '../components/features/Monitors/MonitorsGrid';
 import { MonitorDto } from '../dtos/monitorDtos';
 import { getMonitor } from '../services/monitorsService';
 import { getParams } from '../utilities/router';

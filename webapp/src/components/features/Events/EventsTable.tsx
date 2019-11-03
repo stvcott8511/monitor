@@ -4,10 +4,10 @@ import InfoIcon from '@material-ui/icons/Info';
 import LowPriorityIcon from '@material-ui/icons/LowPriority';
 import WarningIcon from '@material-ui/icons/Warning';
 import React from 'react';
-import { EventDto, EventAlert } from '../../dtos/eventDtos';
-import VirtualizedTable, { VirtualizedTableCell } from '../Tables/VirtualizedTable';
-import TooltipIcon from '../Icons/TooltipIcon';
-import { BaseTheme } from '../../themes/baseTheme';
+import { EventDto, EventAlert } from '../../../dtos/eventDtos';
+import VirtualizedTable, { VirtualizedTableCell } from '../../core/Tables/VirtualizedTable';
+import TooltipIcon from '../../core/Icons/TooltipIcon';
+import { BaseTheme } from '../../../themes/baseTheme';
 
 const eventAlertIconComponents = (classes: Record<StyleClasses, string>) => ({
   [EventAlert.CLEAR]: () => (

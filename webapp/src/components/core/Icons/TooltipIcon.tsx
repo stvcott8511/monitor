@@ -1,7 +1,7 @@
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import Tooltip, { TooltipProps } from '@material-ui/core/Tooltip';
 import React from 'react';
-import { AtLeastOne } from '../../typings/typingHelpers';
+import { AtLeastOne } from '../../../typings/typingHelpers';
 
 export interface TooltipIconProps extends SvgIconProps {
   IconComponent: React.ComponentType<SvgIconProps>;
