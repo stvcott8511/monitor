@@ -1,4 +1,4 @@
-import { ChartOptions } from 'chart.js';
+import { ChartData, ChartDataSets, ChartOptions } from 'chart.js';
 import React from 'react';
 import { Line, LinearComponentProps } from 'react-chartjs-2';
 
@@ -50,61 +50,71 @@ const OPTIONS: Readonly<ChartOptions> = Object.freeze({
   }
 });
 
+const BASE_DATASET_OPTIONS: ChartDataSets = Object.freeze({
+  borderColor: '#F96332',
+  pointBorderColor: '#FFFFFF',
+  pointBackgroundColor: '#F96332',
+  pointBorderWidth: 2,
+  pointHoverRadius: 4,
+  pointHoverBorderWidth: 1,
+  pointRadius: 4,
+  fill: true,
+  borderWidth: 2,
+});
+
+export type ChartDataSetsFunction = (
+  canvas: HTMLElement
+) => ChartDataSets;
+
 export interface LineChartProps {
   chartLabels: string[],
   data: number[],
+  dataSetOptions?: ChartDataSets | ChartDataSetsFunction,
   label: string,
   LineProps?: LinearComponentProps,
+  options?: ChartOptions,
 }
 
 const LineChart: React.FunctionComponent<LineChartProps> = (props) => {
   const {
     chartLabels,
     data,
+    dataSetOptions,
     label,
-    LineProps,
+    options,
   } = props;
 
-  const {
-    data: linePropsData,
-    options: linePropsOptions,
-    ...restOfLineProps
-  } = LineProps || {};
-
-  function buildData(canvas: HTMLElement) {
+  function buildData(canvas: HTMLElement): ChartData {
     var ctx = (canvas as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D;
 
     var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientStroke.addColorStop(0, '#80b6f4');
+    gradientStroke.addColorStop(0, '#80B6f4');
     gradientStroke.addColorStop(1, CHART_COLOR);
 
     var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
     gradientFill.addColorStop(0, 'rgba(128, 182, 244, 0)');
     gradientFill.addColorStop(1, 'rgba(249, 99, 59, 0.40)');
+
+    const dataSetsOptionsProp = typeof dataSetOptions === 'function'
+      ? dataSetOptions(canvas)
+      : dataSetOptions;
+
     return {
       labels: chartLabels,
       datasets: [{
+        ...BASE_DATASET_OPTIONS,
         label,
-        borderColor: '#f96332',
-        pointBorderColor: '#FFF',
-        pointBackgroundColor: '#f96332',
-        pointBorderWidth: 2,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 1,
-        pointRadius: 4,
-        fill: true,
         backgroundColor: gradientFill,
-        borderWidth: 2,
         data,
+        ...dataSetsOptionsProp
       }],
     };
   }
 
   return (
     <Line
-      data={linePropsData || buildData}
-      options={linePropsOptions || OPTIONS}
-      {...restOfLineProps} />
+      data={buildData}
+      options={options || OPTIONS} />
   );
 }
 
