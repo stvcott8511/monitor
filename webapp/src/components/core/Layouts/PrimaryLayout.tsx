@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   contentArea: {
     display: 'flex',
     flexGrow: 1,
+    overflowY: 'auto',
   },
 }));
 
