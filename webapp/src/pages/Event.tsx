@@ -1,4 +1,5 @@
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import LineChart from '../components/core/Charts/LineChart';
@@ -57,6 +58,7 @@ const Event: React.FunctionComponent<EventProps> = (props) => {
     <Grid container>
       <Grid item xs={3}>
         <div>
+          <Typography variant="h6">High</Typography>
           <LineChart
             label="High Severity"
             chartLabels={[...CHART_LABELS]}
@@ -64,12 +66,14 @@ const Event: React.FunctionComponent<EventProps> = (props) => {
             dataSetOptions={buildDataSetOptions('high')} />
         </div>
         <div>
+          <Typography variant="h6">Medium</Typography>
           <LineChart
             label="Medium Severity"
             chartLabels={[...CHART_LABELS]}
             data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]} />
         </div>
         <div>
+          <Typography variant="h6">Low</Typography>
           <LineChart
             label="Low Severity"
             chartLabels={[...CHART_LABELS]}
@@ -77,6 +81,7 @@ const Event: React.FunctionComponent<EventProps> = (props) => {
             dataSetOptions={buildDataSetOptions('low')} />
         </div>
         <div>
+          <Typography variant="h6">Information</Typography>
           <LineChart
             label="Information"
             chartLabels={[...CHART_LABELS]}
