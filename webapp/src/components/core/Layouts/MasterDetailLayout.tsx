@@ -16,6 +16,11 @@ const useStyles = makeStyles(theme => ({
     borderRightStyle: 'solid',
     borderRightWidth: 1,
   },
+  masterContentContainer: {
+    paddingTop: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
 }));
 
 interface MasterListRowProps {
@@ -61,7 +66,10 @@ const MasterDetailLayout: React.FunctionComponent<MasterDetailLayoutProps> = (pr
 
   return (
     <Grid container className={classes.root}>
-      <Grid item sm={2} className={classes.masterListContainer}>
+      <Grid
+        item
+        sm={2}
+        className={classes.masterListContainer}>
         <AutoSizer>
           {
             ({ height, width }) => {
@@ -78,7 +86,10 @@ const MasterDetailLayout: React.FunctionComponent<MasterDetailLayoutProps> = (pr
           }
         </AutoSizer>
       </Grid>
-      <Grid item sm={10}>
+      <Grid
+        item
+        sm={10}
+        className={classes.masterContentContainer}>
         {children}
       </Grid>
     </Grid>
