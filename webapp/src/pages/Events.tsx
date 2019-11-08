@@ -52,7 +52,7 @@ const Events: React.FunctionComponent<EventsProps> = (props) => {
           render={() => <EventsTable events={events} />} />
         <Route
           path={`${match.path}/:eventType`}
-          render={routeProps => <Event {...routeProps} />} />
+          render={routeProps => <Event monitor={monitor} {...routeProps} />} />
       </Switch>
     </MasterDetailLayout>
   );

@@ -1,5 +1,5 @@
 export interface MonitorDto {
   monName: string;
-  description: string;
+  description?: string;
   timeout?: number;
 }

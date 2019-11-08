@@ -1,9 +1,11 @@
 import Grid from '@material-ui/core/Grid';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import LineChart from '../components/core/Charts/LineChart';
 import EventsTable from '../components/features/Events/EventsTable';
 import { EventDto } from '../dtos/eventDtos';
+import { MonitorDto } from '../dtos/monitorDtos';
+import { getMonitorEventsByType } from '../services/monitorsService';
 
 const CHART_LABELS = Object.freeze(['Jan', 'Feb', 'Mar', 'Apr', 'May',
   'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
@@ -32,15 +34,26 @@ export interface EventRouteParams {
 }
 
 export interface EventProps extends RouteComponentProps<EventRouteParams> {
-
+  monitor?: MonitorDto
 }
 
 const Event: React.FunctionComponent<EventProps> = (props) => {
-  const { match } = props;
+  const {
+    match,
+    monitor = { monName: match.params.monitorName },
+  } = props;
   const { eventType } = match.params;
   const [events, setEvents] = useState<EventDto[]>([]);
 
   console.log(eventType);
+
+  useEffect(() => {
+    (async () => {
+      console.log(`load events for ${monitor.monName} and ${eventType}`);
+      const result = await getMonitorEventsByType(monitor.monName, eventType);
+      setEvents(result);
+    })();
+  }, [eventType, monitor.monName]);
 
   function buildDataSetOptions(severityLevel: 'high' | 'low' | 'info') {
     return (canvas: HTMLElement) => {

@@ -66,6 +66,10 @@ export async function getMonitorEvents(monitorName: string): Promise<EventDto[]>
   return Promise.resolve(mockEvents(monitorName));
 }
 
+export async function getMonitorEventsByType(monitorName: string, type: string): Promise<EventDto[]> {
+  return Promise.resolve([]);
+}
+
 export async function getMonitorEventTypes(monitorName: string): Promise<Set<string>> {
   return Promise.resolve(mockEvents(monitorName)
     .reduce((accumulator, current) => accumulator.add(current.eventId),
