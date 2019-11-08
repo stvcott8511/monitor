@@ -1,3 +1,4 @@
+import Typography, { TypographyProps } from '@material-ui/core/Typography';
 import { ChartData, ChartDataSets, ChartOptions } from 'chart.js';
 import React from 'react';
 import { Line, LinearComponentProps } from 'react-chartjs-2';
@@ -72,7 +73,9 @@ export interface LineChartProps {
   dataSetOptions?: ChartDataSets | ChartDataSetsFunction,
   label: string,
   LineProps?: LinearComponentProps,
+  name: string,
   options?: ChartOptions,
+  TypographyProps?: Partial<TypographyProps>,
 }
 
 const LineChart: React.FunctionComponent<LineChartProps> = (props) => {
@@ -81,7 +84,9 @@ const LineChart: React.FunctionComponent<LineChartProps> = (props) => {
     data,
     dataSetOptions,
     label,
+    name,
     options,
+    TypographyProps,
   } = props;
 
   function buildData(canvas: HTMLElement): ChartData {
@@ -112,9 +117,12 @@ const LineChart: React.FunctionComponent<LineChartProps> = (props) => {
   }
 
   return (
-    <Line
-      data={buildData}
-      options={options || OPTIONS} />
+    <div>
+      <Typography variant="h6" {...TypographyProps}>{name}</Typography>
+      <Line
+        data={buildData}
+        options={options || OPTIONS} />
+    </div>
   );
 }
 

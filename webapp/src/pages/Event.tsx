@@ -1,8 +1,9 @@
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import React from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import LineChart from '../components/core/Charts/LineChart';
+import EventsTable from '../components/features/Events/EventsTable';
+import { EventDto } from '../dtos/eventDtos';
 
 const CHART_LABELS = Object.freeze(['Jan', 'Feb', 'Mar', 'Apr', 'May',
   'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
@@ -37,6 +38,7 @@ export interface EventProps extends RouteComponentProps<EventRouteParams> {
 const Event: React.FunctionComponent<EventProps> = (props) => {
   const { match } = props;
   const { eventType } = match.params;
+  const [events, setEvents] = useState<EventDto[]>([]);
 
   console.log(eventType);
 
@@ -57,40 +59,34 @@ const Event: React.FunctionComponent<EventProps> = (props) => {
   return (
     <Grid container>
       <Grid item xs={3}>
-        <div>
-          <Typography variant="h6">High</Typography>
-          <LineChart
-            label="High Severity"
-            chartLabels={[...CHART_LABELS]}
-            data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]}
-            dataSetOptions={buildDataSetOptions('high')} />
-        </div>
-        <div>
-          <Typography variant="h6">Medium</Typography>
-          <LineChart
-            label="Medium Severity"
-            chartLabels={[...CHART_LABELS]}
-            data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]} />
-        </div>
-        <div>
-          <Typography variant="h6">Low</Typography>
-          <LineChart
-            label="Low Severity"
-            chartLabels={[...CHART_LABELS]}
-            data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]}
-            dataSetOptions={buildDataSetOptions('low')} />
-        </div>
-        <div>
-          <Typography variant="h6">Information</Typography>
-          <LineChart
-            label="Information"
-            chartLabels={[...CHART_LABELS]}
-            data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]}
-            dataSetOptions={buildDataSetOptions('info')} />
-        </div>
+        <LineChart
+          name="High"
+          label="Events"
+          chartLabels={[...CHART_LABELS]}
+          data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]}
+          dataSetOptions={buildDataSetOptions('high')} />
+        <LineChart
+          name="Medium"
+          label="Events"
+          chartLabels={[...CHART_LABELS]}
+          data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]} />
+        <LineChart
+          name="Low"
+          label="Events"
+          chartLabels={[...CHART_LABELS]}
+          data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]}
+          dataSetOptions={buildDataSetOptions('low')} />
+        <LineChart
+          name="Information"
+          label="Events"
+          chartLabels={[...CHART_LABELS]}
+          data={[542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]}
+          dataSetOptions={buildDataSetOptions('info')} />
       </Grid>
       <Grid item xs={9}>
-
+        <div>
+          <EventsTable events={events} />
+        </div>
       </Grid>
     </Grid>
   );
