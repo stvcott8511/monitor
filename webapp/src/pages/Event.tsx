@@ -97,9 +97,7 @@ const Event: React.FunctionComponent<EventProps> = (props) => {
           dataSetOptions={buildDataSetOptions('info')} />
       </Grid>
       <Grid item xs={9}>
-        <div>
-          <EventsTable events={events} />
-        </div>
+        <EventsTable events={events} />
       </Grid>
     </Grid>
   );

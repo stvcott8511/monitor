@@ -54,6 +54,22 @@ function mockEvents(monitorName: string): EventDto[] {
   ]);
 }
 
+function mockEventsForType(monitorName: string, type: string): EventDto[] {
+  const count = Math.ceil(Math.random() * 10);
+  let events: EventDto[] = [];
+  for (let i = 0; i < count; ++i) {
+    events.push({
+      eventId: type,
+      linkedMon: monitorName,
+      alert: EventAlert.HIGH,
+      timeStamp: new Date(),
+      message: 'Event message',
+      details: `${type} detailed information. Could be stack trace.`
+    });
+  }
+  return events;
+}
+
 export async function getMonitors(): Promise<MonitorDto[]> {
   return Promise.resolve([...MOCK_MONITORS]);
 }
@@ -67,7 +83,7 @@ export async function getMonitorEvents(monitorName: string): Promise<EventDto[]>
 }
 
 export async function getMonitorEventsByType(monitorName: string, type: string): Promise<EventDto[]> {
-  return Promise.resolve([]);
+  return Promise.resolve(mockEventsForType(monitorName, type));
 }
 
 export async function getMonitorEventTypes(monitorName: string): Promise<Set<string>> {

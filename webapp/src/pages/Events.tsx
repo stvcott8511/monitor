@@ -27,15 +27,18 @@ const Events: React.FunctionComponent<EventsProps> = (props) => {
   const [eventTypes, setEventTypes] = useState<MasterListConfig[]>([]);
 
   useEffect(() => {
-    function handleClickEventType(name: string) {
-      name !== 'All' && history.push(`${match.url}/${name}`);
-    }
-
     (async () => {
       console.log(`load events for ${monitor.monName}`);
       const result = await getMonitorEvents(monitor.monName);
       setEvents(result);
     })();
+  }, [monitor.monName]);
+
+  useEffect(() => {
+    function handleClickEventType(name: string) {
+      name !== 'All' && history.push(`${match.url}/${name}`);
+    }
+
     (async () => {
       const result = await getMonitorEventTypes(monitor.monName);
       const eventTypes = ['All', ...Array.from<string>(result)];
