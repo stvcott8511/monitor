@@ -3,7 +3,11 @@ import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
+import GlobalSnackbar from './components/core/Snackbars/GlobalSnackbar';
+import { DEFAULT_SNACKBAR_STATE, SnackbarStateProvider } from './contexts/SnackbarContext';
 import Monitors from './pages/Monitors';
+import Test from './pages/Test';
+import { reducer as snackbarReducer } from './reducers/snackbarReducer';
 import { BaseTheme } from './themes/baseTheme';
 
 const theme: BaseTheme = createMuiTheme({
@@ -26,12 +30,18 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <Router>
-          <Route path="/" exact render={() => <Redirect to="/monitors" />} />
-          <Route path="/monitors" component={Monitors} />
-        </Router>
-      </div>
+      <SnackbarStateProvider
+        initialState={DEFAULT_SNACKBAR_STATE}
+        reducer={snackbarReducer}>
+        <div className={classes.root}>
+          <Router>
+            <Route path="/" exact render={() => <Redirect to="/monitors" />} />
+            <Route path="/monitors" component={Monitors} />
+            <Route path="/test" component={Test} />
+          </Router>
+          <GlobalSnackbar />
+        </div>
+      </SnackbarStateProvider>
     </ThemeProvider>
   );
 }
