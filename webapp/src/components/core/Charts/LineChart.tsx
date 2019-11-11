@@ -68,14 +68,14 @@ export type ChartDataSetsFunction = (
 ) => ChartDataSets;
 
 export interface LineChartProps {
-  chartLabels: string[],
-  data: number[],
-  dataSetOptions?: ChartDataSets | ChartDataSetsFunction,
-  label: string,
-  LineProps?: LinearComponentProps,
-  name: string,
-  options?: ChartOptions,
-  TypographyProps?: Partial<TypographyProps>,
+  chartLabels: string[];
+  data: number[];
+  dataSetOptions?: ChartDataSets | ChartDataSetsFunction;
+  label: string;
+  LineProps?: LinearComponentProps;
+  name: string;
+  options?: ChartOptions;
+  TypographyProps?: Partial<TypographyProps>;
 }
 
 const LineChart: React.FunctionComponent<LineChartProps> = (props) => {
