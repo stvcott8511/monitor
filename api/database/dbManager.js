@@ -15,9 +15,8 @@ function getBaseDB() {
 function getMongoDBConfig() {
     let config = {
         dbHost: process.env.DBHOST,
-        port: process.env.DBHOST,
+        port: process.env.DBPORT,
         dbname: process.env.DBNAME,
-        collection: process.env.COLLECTION,
         dbClass: MongoDB
     }
     return config;
@@ -41,7 +40,7 @@ class DBManager {
 
 let instance = undefined;
 
-module.exports = function( name, logger, config ) { 
+module.exports = function( name, logger, collection, config ) { 
     if( _.isUndefined( instance ) ) {
         instance = new DBManager();
     }
@@ -56,7 +55,6 @@ module.exports = function( name, logger, config ) {
     baseConfig.dbHost = _.get( config,  "dbHost" , baseConfig.dbHost );
     baseConfig.port = _.get( config, "port" , baseConfig.port );
     baseConfig.dbname = _.get( config, "dbname" , baseConfig.dbname );
-    baseConfig.collection = _.get( config, "collection", baseConfig.collection );
 
-    return new baseConfig.dbClass(  baseConfig.dbHost, baseConfig.port, baseConfig.dbname, baseConfig.collection, logger );
+    return new baseConfig.dbClass(  baseConfig.dbHost, baseConfig.port, baseConfig.dbname, collection, logger );
 }
