@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import EventsTable from '../components/features/Events/EventsTable';
 import MasterDetailLayout, { MasterListConfig } from '../components/core/Layouts/MasterDetailLayout';
+import EventsTable from '../components/features/Events/EventsTable';
 import { EventDto } from '../dtos/eventDtos';
 import { MonitorDto } from '../dtos/monitorDtos';
 import { getMonitorEvents, getMonitorEventTypes } from '../services/monitorsService';
+import { getParams } from '../utilities/router';
 import Event from './Event';
 import { MonitorsRouteParams } from './Monitors';
+
+const EVENTS_ROUTE_PROPS = Object.freeze({
+  path: '/monitors/:monitorName/events/:eventType',
+});
+
+export interface EventsRouteParams {
+  eventType: string;
+}
 
 export interface EventsProps extends RouteComponentProps<MonitorsRouteParams> {
   monitor?: MonitorDto
@@ -20,6 +29,7 @@ export interface EventsProps extends RouteComponentProps<MonitorsRouteParams> {
 const Events: React.FunctionComponent<EventsProps> = (props) => {
   const {
     history,
+    location,
     match,
     monitor = { monName: match.params.monitorName }
   } = props;
@@ -27,12 +37,16 @@ const Events: React.FunctionComponent<EventsProps> = (props) => {
   const [eventTypes, setEventTypes] = useState<MasterListConfig[]>([]);
 
   useEffect(() => {
-    (async () => {
-      console.log(`load events for ${monitor.monName}`);
-      const result = await getMonitorEvents(monitor.monName);
-      setEvents(result);
-    })();
-  }, [monitor.monName]);
+    let params = getParams<EventsRouteParams>(location.pathname, EVENTS_ROUTE_PROPS);
+    !params.eventType
+      && (
+        async () => {
+          console.log(`load events for ${monitor.monName}`);
+          const result = await getMonitorEvents(monitor.monName);
+          setEvents(result);
+        }
+      )();
+  }, [monitor.monName, location.pathname]);
 
   useEffect(() => {
     function handleClickEventType(name: string) {
