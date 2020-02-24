@@ -32,3 +32,9 @@ npm run start:dev
 ```
 
 Starts the server and defaults to listen on port 8000.
+
+## Development
+
+### Tool Configurations
+
+- [Visual Studio Code Configurations](api/documentation/VS_CODE.md)
