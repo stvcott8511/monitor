@@ -2,12 +2,12 @@
   "name": "monitor",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
     "build": "webpack",
     "build:dev": "NODE_ENV=development webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "node build/index.js",
     "start:dev": "NODE_ENV=development node build/index.js"
   },
   "author": "Steven Cottier",
