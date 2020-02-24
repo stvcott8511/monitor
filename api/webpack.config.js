@@ -21,6 +21,9 @@ module.exports = {
     filename: 'index.js'
   },
   resolve: {
+    alias: {
+      '@monitor': path.resolve(__dirname)
+    },
     extensions: ['.ts', '.mjs', '.js'],
   }
 }

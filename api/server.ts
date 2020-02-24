@@ -1,11 +1,11 @@
+import * as api from '@monitor/apicontroller';
+import * as graphQlApi from '@monitor/graphql/graphQLAPI';
+import { LogManager } from '@monitor/logging/LogManager';
+import { ExceptionWrapper } from '@monitor/utils/utils';
 import * as bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as morgan from 'morgan';
-import * as api from './apicontroller';
-import * as graphQlApi from './graphql/graphQLAPI';
-import { LogManager } from './logging/LogManager';
-import { ExceptionWraper } from './utils/utils';
 
 // Load settings configuration from env file.
 dotenv.config({
@@ -43,7 +43,7 @@ app.post('/monitor/add', jsonParser, async (req, res) => {
   try {
     res.send(await api.addMonitor(req.body));
   } catch (error) {
-    res.status(500).send(new ExceptionWraper(error).toJSON());
+    res.status(500).send(new ExceptionWrapper(error).toJson());
   }
 });
 
@@ -51,7 +51,7 @@ app.post('/monitor/remove', jsonParser, async (req, res) => {
   try {
     res.send(await api.removeMonitor(req.body));
   } catch (error) {
-    res.status(500).send(new ExceptionWraper(error).toJSON());
+    res.status(500).send(new ExceptionWrapper(error).toJson());
   }
 });
 
@@ -59,7 +59,7 @@ app.post('/monitor/find', jsonParser, async (req, res) => {
   try {
     res.send(await api.findMonitor(req.body));
   } catch (error) {
-    res.status(500).send(new ExceptionWraper(error).toJSON());
+    res.status(500).send(new ExceptionWrapper(error).toJson());
   }
 });
 
@@ -68,7 +68,7 @@ app.post('/event/add', jsonParser, async (req, res) => {
   try {
     res.send(await api.addEvent(req.body));
   } catch (error) {
-    res.status(500).send(new ExceptionWraper(error).toJSON());
+    res.status(500).send(new ExceptionWrapper(error).toJson());
   }
 });
 
@@ -76,7 +76,7 @@ app.post('/event/find', jsonParser, async (req, res) => {
   try {
     res.send(await api.findEvent(req.body))
   } catch (error) {
-    res.status(500).send(new ExceptionWraper(error).toJSON());
+    res.status(500).send(new ExceptionWrapper(error).toJson());
   }
 });
 
