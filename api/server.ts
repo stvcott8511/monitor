@@ -14,7 +14,7 @@ dotenv.config({
 
 // main
 var port = process.env.PORT || 8000;
-var logger = LogManager.getLoogger();
+var logger = LogManager.getLogger(process.env.NODE_ENV);
 var app = express();
 var jsonParser = bodyParser.json();
 

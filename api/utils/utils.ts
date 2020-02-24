@@ -5,9 +5,9 @@ export interface Error {
 }
 
 export class ExceptionWrapper {
-    public status: string;
+    status: string;
 
-    public description: string;
+    description: string;
 
     constructor(error: Error) {
         this.status = 'Error';
