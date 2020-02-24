@@ -3,7 +3,7 @@ const {
   NODE_ENV = 'production',
 } = process.env;
 module.exports = {
-  entry: './server.js',
+  entry: './server.ts',
   mode: NODE_ENV,
   target: 'node',
   module: {
