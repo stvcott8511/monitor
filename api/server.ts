@@ -1,16 +1,16 @@
+import * as dotenv from 'dotenv';
+// Load settings configuration from env file.
+dotenv.config({
+  path: './settings.env'
+});
+
 import * as api from '@monitor/apicontroller';
 import * as graphQlApi from '@monitor/graphql/graphQLAPI';
 import { LogManager } from '@monitor/logging/LogManager';
 import { ExceptionWrapper } from '@monitor/utils/utils';
 import * as bodyParser from 'body-parser';
-import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as morgan from 'morgan';
-
-// Load settings configuration from env file.
-dotenv.config({
-  path: __dirname + '/config/settings.env'
-});
 
 // main
 var port = process.env.PORT || 8000;
