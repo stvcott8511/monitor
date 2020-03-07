@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "strict": true,
+        "rootDir": "./",
+        "baseUrl": "./",
+        "outDir": "./build",
+        "removeComments": true,
+        "experimentalDecorators": true,
+        "target": "es6",
+        "allowJs": true,
+        "emitDecoratorMetadata": true,
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "types": [
+            "node"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "sourceMap": true,
+        "paths": {
+            "@monitor/*": [
+                "*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules/*",
+        "build/*"
+    ]
+}
