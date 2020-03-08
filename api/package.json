@@ -7,7 +7,7 @@
     "build": "webpack",
     "build:dev": "NODE_ENV=development webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node build/index.js",
+    "start": "bash start.bash",
     "start:dev": "NODE_ENV=development node build/index.js"
   },
   "author": "Steven Cottier",

@@ -1,9 +1,3 @@
-import * as dotenv from 'dotenv';
-// Load settings configuration from env file.
-dotenv.config({
-  path: './settings.env'
-});
-
 import * as api from '@monitor/apicontroller';
 import * as graphQlApi from '@monitor/graphql/graphQLAPI';
 import { LogManager } from '@monitor/logging/LogManager';
