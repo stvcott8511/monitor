@@ -36,13 +36,13 @@ WORKDIR /root
 
 COPY index.js .
 COPY settings.env .
-COPY start.bash .
+COPY start.sh .
 
 ENV PATH=$PATH:/opt/node/bin
 
-RUN chmod 755 start.bash
+RUN chmod 755 start.sh
 
 EXPOSE 1985
 EXPOSE 5672
 
-CMD sh -c ./start.bash
+CMD sh -c ./start.sh
