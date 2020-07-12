@@ -4,7 +4,7 @@ set -o allexport
 source settings.env
 set +o allexport
 
-mongod --config /etc/mongod.conf &> mongod.log &
+/etc/init.d/mongodb start
 rabbitmq-server &> rabbitmq-server.log &
 
 node index.js
