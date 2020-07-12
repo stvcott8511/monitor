@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "build": "webpack",
-    "build:dev": "NODE_ENV=development webpack",
+    "build": "retire --severity high && webpack",
+    "build:dev": "retire --severity high && NODE_ENV=development; webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "bash start.bash",
     "start:dev": "NODE_ENV=development node build/index.js"
@@ -32,6 +32,7 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.2",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "retire": "^2.2.1"
   }
 }
